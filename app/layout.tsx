@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,16 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-       <div className="nim-h-screen">
-       <nav>
-          <h1 className="font-extrabold text-2xl tracking-wide text-center py-2">
-            Grocery Helper
-          </h1>
-        </nav>
+       <div className="min-h-screen flex flex-col">
+      <Header/>
         {children}
-        <footer className="footer footer-center">
-          created by Ivan Felipe Escobar 2024
-        </footer>
+        <Footer/>
        </div>
       </body>
     </html>
