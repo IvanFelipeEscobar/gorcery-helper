@@ -5,6 +5,8 @@ import { z } from "zod";
 
 import { sql } from "@vercel/postgres";
 import { User } from "./lib/definitions";
+import { signInSchema } from "./lib/zod";
+
 const getUser = async (email: string): Promise<User | undefined> => {
   try {
     const user = await sql<User>`SELECT * from USERS where email = ${email}`;
@@ -27,7 +29,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           .safeParse(credentials);
 
         if (parsedCredentials.success) {
-          const { email, password } = parsedCredentials.data;
+          const { email, password } = await signInSchema.parseAsync(
+            credentials
+          );
           const user = await getUser(email);
           if (!user) return null;
           const verifyPassword = await bcrypt.compare(password, user.password);
